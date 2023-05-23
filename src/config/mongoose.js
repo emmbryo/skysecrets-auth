@@ -9,9 +9,10 @@ import mongoose from 'mongoose'
 /**
  * Establishes a connection to a database.
  *
+ * @param {string} connectionString - ...
  * @returns {Promise} Resolves to this if connection succeeded.
  */
-export const connectDB = async () => {
+export const connectDB = async (connectionString) => {
   const { connection } = mongoose
 
   // Bind connection to events (to get notifications).
@@ -27,5 +28,5 @@ export const connectDB = async () => {
     })
   })
 
-  return mongoose.connect(process.env.DB_CONNECTION_STRING)
+  return mongoose.connect(connectionString)
 }

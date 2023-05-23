@@ -7,12 +7,29 @@
 // import createError from 'http-errors'
 import jwt from 'jsonwebtoken'
 import createError from 'http-errors'
-import { User } from '../models/User.js'
+import { UserModel } from '../models/UserModel.js'
+import { AuthService } from '../services/AuthService.js'
 
 /**
  * Encapsulates a controller.
  */
 export class AuthController {
+  /**
+   * The service.
+   *
+   * @type {AuthService}
+   */
+  #service
+
+  /**
+   * Initializes a new instance.
+   *
+   * @param {AuthService} service - A service instantiated from a class with the same capabilities as AuthService.
+   */
+  constructor (service = new AuthService()) {
+    this.#service = service
+  }
+
   /**
    * Authenticates a user.
    *
@@ -22,7 +39,7 @@ export class AuthController {
    */
   async login (req, res, next) {
     try {
-      const user = await User.authenticate(req.body.username, req.body.password)
+      const user = await UserModel.authenticate(req.body.username, req.body.password)
 
       const payload = {
         sub: user.username,
@@ -65,7 +82,7 @@ export class AuthController {
    */
   async register (req, res, next) {
     try {
-      const user = new User({
+      const user = new UserModel({
         username: req.body.username,
         password: req.body.password,
         firstName: req.body.firstName,

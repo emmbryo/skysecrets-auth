@@ -3,7 +3,7 @@
  *
  * @version 1.0.0
  */
-
+import { container } from './config/bootstrap.js'
 import express from 'express'
 import helmet from 'helmet'
 import logger from 'morgan'
@@ -12,9 +12,10 @@ import { connectDB } from './config/mongoose.js'
 import rateLimit from 'express-rate-limit'
 
 try {
-  await connectDB()
+  await connectDB(container.resolve('ConnectionString'))
 
   const app = express()
+  app.set('container', container)
 
   // Set various HTTP headers to make the application little more secure (https://www.npmjs.com/package/helmet).
   app.use(helmet())

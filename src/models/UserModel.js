@@ -69,6 +69,29 @@ schema.virtual('id').get(function () {
   return this._id.toHexString()
 })
 
+schema.post(['find', 'findOne', 'findOneAndUpdate', 'findOneAndDelete'], function (res) {
+  if (!res || !this.mongooseOptions().lean) {
+    return
+  }
+
+  /**
+   * Performs a transformation of the resulting lean object.
+   *
+   * @param {object} obj - The object to transform.
+   */
+  const transformLeanObject = (obj) => {
+    obj.id = obj._id.toHexString()
+    delete obj._id
+    delete obj.__v
+  }
+
+  if (Array.isArray(res)) {
+    res.forEach(transformLeanObject)
+  } else {
+    transformLeanObject(res)
+  }
+})
+
 // Salts and hashes password before save.
 schema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, 10)
@@ -79,7 +102,7 @@ schema.pre('save', async function () {
  *
  * @param {string} username - ...
  * @param {string} password - ...
- * @returns {Promise<User>} ...
+ * @returns {Promise<UserModel>} - ...
  */
 schema.statics.authenticate = async function (username, password) {
   const user = await this.findOne({ username })

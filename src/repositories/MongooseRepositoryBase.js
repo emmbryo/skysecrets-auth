@@ -1,6 +1,7 @@
 /**
  * Module for MongooseRepositoryBase.
  *
+ * @author Mats Loock
  * @version 1.0.0
  */
 
@@ -15,7 +16,7 @@ export class MongooseRepositoryBase {
    *
    * @type {mongoose.Model}
    */
-  #model
+  model
 
   /**
    * Initializes a new instance.
@@ -23,7 +24,7 @@ export class MongooseRepositoryBase {
    * @param {mongoose.Model} model - A Mongoose model.
    */
   constructor (model) {
-    this.#model = model
+    this.model = model
   }
 
   /**
@@ -38,9 +39,9 @@ export class MongooseRepositoryBase {
    * @returns {Promise<object[]>} Promise resolved with the found documents as a plain JavaScript objects.
    */
   async get (filter, projection = null, options = null) {
-    return this.#model
+    return this.model
       .find(filter, projection, options)
-      .lean({ virtuals: !!this.#model.schema.virtuals })
+      .lean({ virtuals: !!this.model.schema.virtuals })
       .exec()
   }
 
@@ -53,9 +54,9 @@ export class MongooseRepositoryBase {
    * @returns {Promise<object>} Promise resolved with the found document as a plain JavaScript object.
    */
   async getById (id, projection, options) {
-    return this.#model
+    return this.model
       .findById(id, projection, options)
-      .lean({ virtuals: !!this.#model.schema.virtuals })
+      .lean({ virtuals: !!this.model.schema.virtuals })
       .exec()
   }
 
@@ -68,9 +69,9 @@ export class MongooseRepositoryBase {
    * @returns {Promise<object>} Promise resolved with the found document as a plain JavaScript object.
    */
   async getOne (conditions, projection, options) {
-    return this.#model
+    return this.model
       .findOne(conditions, projection, options)
-      .lean({ virtuals: !!this.#model.schema.virtuals })
+      .lean({ virtuals: !!this.model.schema.virtuals })
       .exec()
   }
 
@@ -81,7 +82,7 @@ export class MongooseRepositoryBase {
    * @returns {Promise<object>} Promise resolved with the new document as a plain JavaScript object.
    */
   async insert (doc) {
-    const createdDocument = await this.#model.create(doc)
+    const createdDocument = await this.model.create(doc)
     return createdDocument.toObject()
   }
 
@@ -93,9 +94,9 @@ export class MongooseRepositoryBase {
    * @returns {Promise<object>} Promise resolved with the removed document as a plain JavaScript object.
    */
   async delete (id, options) {
-    return this.#model
+    return this.model
       .findByIdAndDelete(id, options)
-      .lean({ virtuals: !!this.#model.schema.virtuals })
+      .lean({ virtuals: !!this.model.schema.virtuals })
       .exec()
   }
 
@@ -114,9 +115,9 @@ export class MongooseRepositoryBase {
     //   throw new Error('Properties for all required paths not supplied.')
     // }
 
-    return this.#model
+    return this.model
       .findByIdAndUpdate(id, newData, { new: true, ...options })
-      .lean({ virtuals: !!this.#model.schema.virtuals })
+      .lean({ virtuals: !!this.model.schema.virtuals })
       .exec()
   }
 }

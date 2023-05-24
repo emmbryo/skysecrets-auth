@@ -19,4 +19,15 @@ export class AuthRepository extends MongooseRepositoryBase {
   constructor (model = UserModel) {
     super(model)
   }
+
+  /**
+   * Authenticates an user.
+   *
+   * @param {string} username - ...
+   * @param {string} pwd - ...
+   * @returns {Promise<object>} Promise resolved with the found document as a plain JavaScript object.
+   */
+  async authenticate (username, pwd) {
+    return this.model.authenticate(username, pwd)
+  }
 }

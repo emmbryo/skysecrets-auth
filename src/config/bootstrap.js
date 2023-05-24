@@ -1,6 +1,7 @@
 /**
  * Module for bootstrapping.
  *
+ * @author Mats Loock
  * @author Emma Fransson
  * @version 1.0.0
  */

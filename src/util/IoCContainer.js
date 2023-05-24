@@ -1,5 +1,7 @@
 /**
  * Encapsulates an inversion of control container.
+ *
+ * @author Mats Loock
  */
 export class IoCContainer {
   /**

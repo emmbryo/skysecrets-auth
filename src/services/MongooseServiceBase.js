@@ -1,6 +1,7 @@
 /**
  * Module for the MongooseServiceBase.
  *
+ * @author Mats Loock
  * @version 1.0.0
  */
 

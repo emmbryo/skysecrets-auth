@@ -5,16 +5,21 @@
  */
 
 import express from 'express'
-import { AuthController } from '../../../controllers/AuthController.js'
 
 export const router = express.Router()
 
-const controller = new AuthController()
+/**
+ * Resolves an AuthController object from the IoC container.
+ *
+ * @param {object} req - Express request object.
+ * @returns {object} An object that can act as a AuthController object.
+ */
+const resolveAuthController = (req) => req.app.get('container').resolve('AuthController')
 
 // Map HTTP verbs and route paths to controller actions.
 
 // Log in
-router.post('/login', (req, res, next) => controller.login(req, res, next))
+router.post('/login', (req, res, next) => resolveAuthController(req).login(req, res, next))
 
 // Register
-router.post('/register', (req, res, next) => controller.register(req, res, next))
+router.post('/register', (req, res, next) => resolveAuthController(req).register(req, res, next))

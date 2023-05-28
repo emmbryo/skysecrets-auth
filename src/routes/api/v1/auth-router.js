@@ -18,8 +18,13 @@ const resolveAuthController = (req) => req.app.get('container').resolve('AuthCon
 
 // Map HTTP verbs and route paths to controller actions.
 
+// POST
 // Log in
 router.post('/login', (req, res, next) => resolveAuthController(req).login(req, res, next))
 
 // Register
 router.post('/register', (req, res, next) => resolveAuthController(req).register(req, res, next))
+
+// GET
+// Logout
+router.get('/logout', (req, res, next) => resolveAuthController(req).logout(req, res, next))

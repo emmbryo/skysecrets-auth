@@ -9,6 +9,6 @@ import { router as authRouter } from './auth-router.js'
 
 export const router = express.Router()
 
-router.get('/', (req, res) => res.json({ message: 'Hooray! Welcome to version 1 of this authorization API! With this API you can create an account, login and recieve a JWT to be able to authenticate yourself.' }))
+router.get('/', (req, res) => res.json({ message: 'Hooray! Welcome to version 1 of this authorization API! With this API you can create an account, login and receive a JWT to be able to authenticate yourself.' }))
 
 router.use('/', authRouter)

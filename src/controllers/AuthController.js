@@ -4,10 +4,8 @@
  * @version 1.0.0
  */
 
-// import createError from 'http-errors'
 import jwt from 'jsonwebtoken'
 import createError from 'http-errors'
-// import { UserModel } from '../models/UserModel.js'
 import { AuthService } from '../services/AuthService.js'
 
 /**
@@ -38,7 +36,7 @@ export class AuthController {
   }
 
   /**
-   * Authenticates a user.
+   * Authenticates an user.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -49,11 +47,11 @@ export class AuthController {
       const user = await this.#service.authenticate(req.body.username, req.body.password)
 
       const payload = {
-        sub: user.username,
+        username: user.username,
         given_name: user.firstName,
         family_name: user.lastName,
         email: user.email,
-        id: user.id
+        sub: user.id
       }
 
       // Create the access token.
@@ -64,8 +62,9 @@ export class AuthController {
 
       res
         .status(200)
+        .cookie('jwt', accessToken, { httpOnly: true, secure: false, maxAge: 86400000 })
         .json({
-          access_token: accessToken
+          status: 'logged in'
         })
     } catch (error) {
       // Authentication failed.
@@ -78,7 +77,22 @@ export class AuthController {
   }
 
   /**
-   * Registers a user.
+   * Logs the user out by returning empt.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async logout (req, res, next) {
+    res
+      .status(200)
+      .header('access-control-expose-headers', 'Set-Cookie')
+      .cookie('jwt', '', { httpOnly: true, secure: false, maxAge: 100 })
+      .json({ status: 'logged out' })
+  }
+
+  /**
+   * Registers an user.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.

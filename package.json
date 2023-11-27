@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.lnu.se:1dv613/student/ef222hr/projects/auth-service.git"
+    "url": "git@github.com:emmbryo/skysecrets-auth.git"
   },
   "keywords": [
     "auth"
   ],
-  "author": "ef222hr",
+  "author": "emmbryo",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
